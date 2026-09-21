@@ -350,59 +350,59 @@ body { background: var(--color-bg); color: var(--color-text); }
 a { color: var(--color-link, var(--color-primary)); }</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IST2 Buffer Takip — NoSLAM / Single / Wrap / HotPick</title>
+<title>IST2 Tote Takip — NoSLAM / Single / Wrap / HotPick</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:#334155;--primary:#3b82f6;--primary-dim:#1e40af;--success:#22c55e;--warning:#f59e0b;--error:#ef4444;--info:#06b6d4;--font:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;--mono:'Cascadia Code','SF Mono',Consolas,monospace;--radius:10px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--font);padding:16px;min-height:100vh}
 
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:14px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)}
 .header-left{display:flex;align-items:center;gap:12px}
-.header h1{font-size:20px;font-weight:700}
+.header h1{font-size:18px;font-weight:700}
 .header h1 span{color:var(--primary)}
-.header-right{display:flex;align-items:center;gap:12px}
-.last-update{font-size:12px;color:var(--text3);font-family:var(--mono)}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.header-right{display:flex;align-items:center;gap:10px}
+.last-update{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600}
 .badge-fc{background:var(--primary-dim);color:var(--primary)}
-
-.conn-status{display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600}
+.conn-status{display:flex;align-items:center;gap:5px;font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600}
 .conn-status.connected{background:#22c55e20;color:#4ade80}
 .conn-status.waiting{background:#f59e0b20;color:#fbbf24}
 .conn-status .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
 .conn-status.connected .dot{animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* Process Path filter tabs */
-.tab-bar{display:flex;gap:4px;margin-bottom:16px;background:var(--bg2);border-radius:var(--radius);padding:4px;border:1px solid var(--border);overflow-x:auto}
-.tab{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;color:var(--text3);border:none;background:transparent}
+/* Process Path tabs — sadece bilinen PP'ler */
+.tab-bar{display:flex;gap:4px;margin-bottom:14px;background:var(--bg2);border-radius:var(--radius);padding:4px;border:1px solid var(--border);overflow-x:auto}
+.tab{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;color:var(--text3);border:none;background:transparent}
 .tab:hover{background:var(--bg3);color:var(--text2)}
 .tab.active{background:var(--primary);color:#fff}
-.tab .cnt{font-family:var(--mono);font-size:11px;opacity:.8;margin-left:4px}
+.tab .cnt{font-family:var(--mono);font-size:10px;opacity:.8;margin-left:3px}
 
-/* Summary */
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
-.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
-.summary-card .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.summary-card .value{font-size:24px;font-weight:700;font-family:var(--mono)}
-.summary-card .sub{font-size:11px;color:var(--text3);margin-top:2px}
+/* Summary — sadece önemli work pool'lar */
+.summary-row{display:flex;gap:10px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;text-align:center;min-width:120px;flex-shrink:0}
+.summary-card .label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;white-space:nowrap}
+.summary-card .value{font-size:22px;font-weight:700;font-family:var(--mono)}
+.summary-card.total-card{border-color:var(--primary-dim)}
+.summary-card.total-card .value{color:var(--primary)}
 
 /* Work Pool sections */
-.wp-section{margin-bottom:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.wp-section{margin-bottom:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .wp-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg3);cursor:pointer;user-select:none}
 .wp-header h3{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
-.wp-header .total{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--primary)}
+.wp-header .total{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--primary)}
 .wp-body{max-height:2000px;overflow-x:auto;transition:max-height .3s ease}
 .wp-section.collapsed .wp-body{max-height:0;overflow:hidden}
-.wp-header .chv{transition:transform .3s;font-size:12px}
+.wp-header .chv{transition:transform .3s;font-size:11px}
 .wp-section.collapsed .wp-header .chv{transform:rotate(-90deg)}
 
-/* Data table */
-.data-table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
-.data-table th{text-align:center;padding:7px 5px;font-weight:600;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:1;white-space:nowrap}
-.data-table th:first-child{text-align:left;padding-left:16px;min-width:140px}
-.data-table td{text-align:center;padding:5px 5px;font-family:var(--mono);font-size:12px;border-bottom:1px solid rgba(51,65,85,.5)}
-.data-table td:first-child{text-align:left;padding-left:16px;font-family:var(--font);font-weight:600;color:var(--text2)}
+/* Data table — daha kompakt */
+.data-table{width:100%;border-collapse:collapse;font-size:11px}
+.data-table th{text-align:center;padding:6px 4px;font-weight:600;color:var(--text3);font-size:9px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:1;white-space:nowrap}
+.data-table th:first-child{text-align:left;padding-left:14px;min-width:130px}
+.data-table td{text-align:center;padding:5px 4px;font-family:var(--mono);font-size:11px;border-bottom:1px solid rgba(51,65,85,.4)}
+.data-table td:first-child{text-align:left;padding-left:14px;font-family:var(--font);font-weight:600;color:var(--text2)}
 .data-table tr:hover td{background:rgba(59,130,246,.05)}
 .data-table tr.total-row td{font-weight:700;color:var(--primary);border-top:2px solid var(--primary-dim);background:rgba(59,130,246,.05)}
 
@@ -411,8 +411,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);padding:16px
 .cpt-ok{color:var(--success)!important}
 .cpt-zero{color:var(--text3)!important}
 
-/* PP color badges */
-.pp-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;font-family:var(--mono)}
+.pp-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;font-family:var(--mono)}
 .pp-noslam{background:#f59e0b20;color:#fbbf24}
 .pp-single{background:#3b82f620;color:#60a5fa}
 .pp-multi{background:#22c55e20;color:#4ade80}
@@ -421,153 +420,125 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);padding:16px
 .pp-hotpick{background:#ef444420;color:#f87171}
 .pp-other{background:#64748b20;color:#94a3b8}
 
-/* Empty state */
 .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
 .empty-state i{font-size:48px;margin-bottom:16px;display:block;color:var(--bg3)}
 .empty-state h3{color:var(--text2);margin-bottom:8px}
 .empty-state p{font-size:13px;line-height:1.6;max-width:500px;margin:0 auto}
-.empty-state ol{text-align:left;display:inline-block;margin-top:16px}
-.empty-state li{margin-bottom:6px;color:var(--text2);font-size:13px}
-.empty-state code{background:var(--bg2);padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:11px;color:var(--info)}
 
-.btn-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg2);border:1px solid var(--border);color:var(--text2);font-size:14px;transition:all .2s}
+.btn-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg2);border:1px solid var(--border);color:var(--text2);font-size:13px;transition:all .2s}
 .btn-icon:hover{border-color:var(--primary);color:var(--primary)}
 
-/* Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center}
-.modal-overlay.show{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);width:90%;max-width:700px;max-height:80vh;display:flex;flex-direction:column}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
-.modal-header h2{font-size:16px}
-.modal-body{padding:20px;overflow-y:auto;flex:1}
-.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
-textarea.data-input{width:100%;height:260px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:11px;padding:12px;resize:vertical}
-textarea.data-input:focus{outline:none;border-color:var(--primary)}
-.btn{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);transition:all .2s}
-.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
-.btn-primary:hover{background:#2563eb}
-.btn-secondary{background:var(--bg3);color:var(--text2)}
-.help-text{font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.6}
-
-::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
-@media(max-width:768px){.header{flex-direction:column;gap:12px;align-items:flex-start}.summary-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-left">
-    <h1><i class="fa-solid fa-boxes-stacked" style="color:var(--primary)"></i> IST2 <span>Buffer Takip</span></h1>
+    <h1><i class="fa-solid fa-boxes-stacked" style="color:var(--primary)"></i> IST2 <span>Tote Takip</span></h1>
     <span class="badge badge-fc"><i class="fa-solid fa-building"></i> IST2</span>
   </div>
   <div class="header-right">
-    <div class="conn-status waiting" id="connStatus"><span class="dot"></span> <span id="connLabel">Rodeo bekleniyor</span></div>
+    <div class="conn-status waiting" id="connStatus"><span class="dot"></span><span id="connLabel">Bekleniyor</span></div>
     <span class="last-update" id="lastUpdate">—</span>
-    <button class="btn-icon" onclick="openModal()" title="Manuel Yapıştır"><i class="fa-solid fa-keyboard"></i></button>
     <button class="btn-icon" onclick="checkAllSources()" title="Yenile"><i class="fa-solid fa-rotate"></i></button>
   </div>
 </div>
 
 <div class="tab-bar" id="ppTabs"></div>
-<div class="summary-grid" id="summaryGrid"></div>
+<div class="summary-row" id="summaryRow"></div>
 <div id="workPoolSections"></div>
-
 <div class="empty-state" id="emptyState">
   <i class="fa-solid fa-satellite-dish"></i>
   <h3>Rodeo Bağlantısı Bekleniyor</h3>
-  <p>Tampermonkey userscript Rodeo'da çalışınca veri otomatik olarak buraya gelecek.</p>
-  <ol>
-    <li>Firefox'a <strong>Tampermonkey</strong> eklentisini kur</li>
-    <li><code>ist2_rodeo_scraper.user.js</code> dosyasını Tampermonkey'e ekle</li>
-    <li>Rodeo ExSD sayfasını aç → <strong>"📦 IST2 Buffer Takip'e Gönder"</strong></li>
-  </ol>
-  <p style="margin-top:12px;font-size:12px">Ya da <i class="fa-solid fa-keyboard"></i> ile Rodeo tablosunu yapıştır.</p>
-</div>
-
-<!-- Modal for manual paste -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2><i class="fa-solid fa-keyboard" style="color:var(--primary)"></i> Manuel Veri</h2>
-      <button class="btn-icon" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="help-text">Rodeo ExSD tablosunu <strong>CTRL+A → CTRL+C</strong> ile kopyala, buraya yapıştır.</div>
-      <textarea class="data-input" id="manualInput" placeholder="Rodeo tablosunu buraya yapıştır..."></textarea>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="loadSample()"><i class="fa-solid fa-flask"></i> Örnek Veri</button>
-      <button class="btn btn-primary" onclick="processManual()"><i class="fa-solid fa-check"></i> Yükle</button>
-    </div>
-  </div>
+  <p>Tampermonkey script Rodeo'da çalıştığında veri otomatik gelecek.</p>
 </div>
 
 <script>
 // ============================================================
 // STATE
 // ============================================================
-let rawData = null;  // { workPools: { wpName: { cptHeaders, rows, grandTotal } } }
+let rawData = null;
 let currentPP = 'ALL';
 
-const PP_KEYWORDS = {
+// ============================================================
+// BİLİNEN PROCESS PATH'LER — SADECE BUNLAR GÖSTERİLECEK
+// ============================================================
+const KNOWN_PP = {
   'PPSingleNoSLAM':      { label:'NoSLAM',   icon:'📦', cls:'pp-noslam' },
   'PPSingleMedium':      { label:'Single',   icon:'📋', cls:'pp-single' },
-  'PPSingleNoSLAMSmall': { label:'NoSLAM-S', icon:'📦', cls:'pp-noslam' },
   'PPMultiMediumZone':   { label:'Multi',    icon:'📚', cls:'pp-multi' },
   'PPHOVSLAPSmall':      { label:'HOV/SLAP', icon:'🏷️', cls:'pp-hov' },
   'PPHOV':               { label:'HOV',      icon:'🏷️', cls:'pp-hov' },
+  'PPMultiWrap':         { label:'Wrap',     icon:'🎁', cls:'pp-wrap' },
+  'GiftWrap':            { label:'GiftWrap', icon:'🎁', cls:'pp-wrap' },
+  'PPSingleNoSLAMSmall': { label:'NoSLAM-S', icon:'📦', cls:'pp-noslam' },
   'PPHOVSLAPLarge':      { label:'HOV-L',    icon:'🏷️', cls:'pp-hov' },
-  'GiftWrap':            { label:'Wrap',     icon:'🎁', cls:'pp-wrap' },
 };
 
-function ppInfo(name) {
-  if (PP_KEYWORDS[name]) return PP_KEYWORDS[name];
+function isKnownPP(name) {
+  if (KNOWN_PP[name]) return true;
   const n = name.toUpperCase();
-  if (n.includes('NOSLAM'))   return { label: name, icon:'📦', cls:'pp-noslam' };
-  if (n.includes('SINGLE'))   return { label: name, icon:'📋', cls:'pp-single' };
-  if (n.includes('MULTI'))    return { label: name, icon:'📚', cls:'pp-multi' };
-  if (n.includes('HOV'))      return { label: name, icon:'🏷️', cls:'pp-hov' };
-  if (n.includes('WRAP') || n.includes('GIFT')) return { label: name, icon:'🎁', cls:'pp-wrap' };
-  if (n.includes('HOT'))      return { label: name, icon:'🔥', cls:'pp-hotpick' };
-  return { label: name, icon:'📄', cls:'pp-other' };
+  // PP ile başlayan veya bilinen keyword içerenler
+  if (n.startsWith('PP')) return true;
+  if (n === 'GIFTWRAP' || n === 'GIFT WRAP') return true;
+  // Bilinmeyen şeyleri atla: sayılar, ASIN, In Scanner, vs.
+  if (n.match(/^\d/)) return false;           // sayı ile başlayan
+  if (n === 'IN SCANNER' || n === 'TOTAL') return false;
+  if (n.length < 4) return false;             // çok kısa
+  if (n === 'ASIN' || n === 'HOV BATCHES') return false;
+  return true; // PP ile başlamayan ama bilinen olabilir
 }
 
-const WP_ORDER = [
+function ppInfo(name) {
+  if (KNOWN_PP[name]) return KNOWN_PP[name];
+  const n = name.toUpperCase();
+  if (n.includes('NOSLAM'))  return { label:name, icon:'📦', cls:'pp-noslam' };
+  if (n.includes('SINGLE'))  return { label:name, icon:'📋', cls:'pp-single' };
+  if (n.includes('MULTI'))   return { label:name, icon:'📚', cls:'pp-multi' };
+  if (n.includes('HOV'))     return { label:name, icon:'🏷️', cls:'pp-hov' };
+  if (n.includes('WRAP') || n.includes('GIFT')) return { label:name, icon:'🎁', cls:'pp-wrap' };
+  if (n.includes('HOT'))     return { label:name, icon:'🔥', cls:'pp-hotpick' };
+  return { label:name, icon:'📄', cls:'pp-other' };
+}
+
+// ============================================================
+// BİLİNEN WORK POOL'LAR — SADECE BUNLAR GÖSTERİLECEK
+// ============================================================
+const IMPORTANT_WPS = [
   'ReadyToPick','PickingNotYetPicked','PickingPickedInTransit',
   'PickingPickedAtDestination','Inducted','RebinBuffered','Sorted',
-  'GiftWrap','Packing','Scanned','ProblemSolving','Crossdock',
-  'PreSort','Palletized','PalletizedStaged'
+  'Packing','Scanned','ProblemSolving'
 ];
+
 const WP_LABELS = {
   'ReadyToPick':'Ready To Pick','PickingNotYetPicked':'Not Yet Picked',
   'PickingPickedInTransit':'Picked In Transit','PickingPickedAtDestination':'Picked At Dest.',
   'Inducted':'Inducted','RebinBuffered':'Rebin Buffered','Sorted':'Sorted',
-  'GiftWrap':'Gift Wrap','Packing':'Packing','Scanned':'Scanned',
-  'ProblemSolving':'Problem Solving','Crossdock':'Crossdock','PreSort':'PreSort',
-  'Palletized':'Palletized','PalletizedStaged':'Palletized Staged',
+  'Packing':'Packing','Scanned':'Scanned','ProblemSolving':'Problem Solving',
 };
 const WP_ICONS = {
   'ReadyToPick':'fa-clock','PickingNotYetPicked':'fa-hourglass-start',
   'PickingPickedInTransit':'fa-truck','PickingPickedAtDestination':'fa-location-dot',
   'Inducted':'fa-arrow-right-to-bracket','RebinBuffered':'fa-layer-group','Sorted':'fa-bars-staggered',
-  'GiftWrap':'fa-gift','Packing':'fa-box','Scanned':'fa-barcode',
-  'ProblemSolving':'fa-triangle-exclamation','Crossdock':'fa-right-left',
-  'PreSort':'fa-filter','Palletized':'fa-pallet','PalletizedStaged':'fa-warehouse',
+  'Packing':'fa-box','Scanned':'fa-barcode','ProblemSolving':'fa-triangle-exclamation',
 };
 
+// SUMMARY'de gösterilecek ana work pool'lar
+const SUMMARY_WPS = [
+  'ReadyToPick','PickingNotYetPicked','PickingPickedInTransit',
+  'PickingPickedAtDestination','RebinBuffered','Sorted','Packing','Scanned','ProblemSolving'
+];
+
 // ============================================================
-// RECEIVE DATA (from Tampermonkey userscript)
+// RECEIVE DATA
 // ============================================================
-// Method 1: postMessage
 window.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'IST2_BUFFER_DATA') {
-    loadData(e.data.payload);
-  }
+  if (e.data && e.data.type === 'IST2_BUFFER_DATA') loadData(e.data.payload);
 });
 
-// Method 2: URL hash
 function checkHash() {
   const h = window.location.hash;
   if (h.startsWith('#data=')) {
@@ -575,60 +546,72 @@ function checkHash() {
       const json = decodeURIComponent(escape(atob(h.substring(6))));
       loadData(JSON.parse(json));
       history.replaceState(null, '', window.location.pathname);
-    } catch(e) { console.error('Hash parse error:', e); }
+    } catch(e) {}
   }
 }
 
-// Method 3: localStorage polling
 function checkStorage() {
   try {
     const stored = localStorage.getItem('ist2_buffer_data');
     if (!stored) return;
     const data = JSON.parse(stored);
     const ts = data.timestamp || '';
-    const lastTs = sessionStorage.getItem('ist2_last_loaded_ts');
-    if (ts && ts !== lastTs) {
-      loadData(data);
-      sessionStorage.setItem('ist2_last_loaded_ts', ts);
-    }
+    const lastTs = sessionStorage.getItem('ist2_last_ts');
+    if (ts && ts !== lastTs) { loadData(data); sessionStorage.setItem('ist2_last_ts', ts); }
   } catch(e) {}
 }
 
 function checkAllSources() { checkHash(); checkStorage(); }
-
-// Poll every 10s
 setInterval(checkStorage, 10000);
 
 function loadData(data) {
-  if (!data) return;
-  rawData = data;
-  const time = data.timestamp 
-    ? new Date(data.timestamp).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) 
-    : new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const wpCount = Object.keys(data.workPools || {}).length;
+  if (!data || !data.workPools) return;
   
+  // Veriyi temizle — sadece bilinen PP satırlarını tut
+  const cleaned = { workPools: {}, timestamp: data.timestamp, fc: data.fc };
+  
+  for (const [wpName, wp] of Object.entries(data.workPools)) {
+    // Sadece bilinen work pool'ları al
+    if (!IMPORTANT_WPS.includes(wpName)) continue;
+    
+    const cleanRows = wp.rows.filter(r => isKnownPP(r.processPath));
+    if (cleanRows.length === 0) continue;
+    
+    // Grand total'i yeniden hesapla (sadece bilinen PP'ler için)
+    const newTotal = new Array(wp.cptHeaders.length + 5).fill(0);
+    cleanRows.forEach(r => r.values.forEach((v, i) => newTotal[i] = (newTotal[i]||0) + v));
+    
+    cleaned.workPools[wpName] = {
+      ...wp,
+      rows: cleanRows,
+      grandTotal: { processPath: 'Toplam', values: newTotal, isTotal: true }
+    };
+  }
+  
+  rawData = cleaned;
+  const time = data.timestamp
+    ? new Date(data.timestamp).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})
+    : new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const wpCount = Object.keys(cleaned.workPools).length;
   document.getElementById('lastUpdate').textContent = `${time} — ${wpCount} work pool`;
   document.getElementById('connStatus').className = 'conn-status connected';
   document.getElementById('connLabel').textContent = 'Rodeo bağlı';
-  
   buildTabs();
   render();
 }
 
 // ============================================================
-// TAB BAR (filter by Process Path)
+// TABS
 // ============================================================
-function getAllProcessPaths() {
-  if (!rawData || !rawData.workPools) return [];
+function getAllPPs() {
+  if (!rawData) return [];
   const ppSet = new Set();
-  Object.values(rawData.workPools).forEach(wp => {
-    wp.rows.forEach(r => ppSet.add(r.processPath));
-  });
+  Object.values(rawData.workPools).forEach(wp => wp.rows.forEach(r => ppSet.add(r.processPath)));
   return [...ppSet].sort();
 }
 
 function buildTabs() {
-  const pps = getAllProcessPaths();
+  const pps = getAllPPs();
   const el = document.getElementById('ppTabs');
   let html = `<button class="tab ${currentPP==='ALL'?'active':''}" onclick="selectPP('ALL')">Tümü</button>`;
   pps.forEach(pp => {
@@ -638,122 +621,105 @@ function buildTabs() {
   el.innerHTML = html;
 }
 
-function selectPP(pp) {
-  currentPP = pp;
-  buildTabs();
-  render();
-}
+function selectPP(pp) { currentPP = pp; buildTabs(); render(); }
 
 // ============================================================
 // RENDER
 // ============================================================
 function render() {
   const emptyEl = document.getElementById('emptyState');
-  const summaryEl = document.getElementById('summaryGrid');
+  const summaryEl = document.getElementById('summaryRow');
   const wpEl = document.getElementById('workPoolSections');
-  
-  if (!rawData || !rawData.workPools || Object.keys(rawData.workPools).length === 0) {
-    emptyEl.style.display = 'block';
-    summaryEl.innerHTML = '';
-    wpEl.innerHTML = '';
-    return;
+
+  if (!rawData || Object.keys(rawData.workPools).length === 0) {
+    emptyEl.style.display = 'block'; summaryEl.innerHTML = ''; wpEl.innerHTML = ''; return;
   }
   emptyEl.style.display = 'none';
-  
+
   // Sort work pools
-  const wpNames = Object.keys(rawData.workPools).sort((a,b) => {
-    const ai = WP_ORDER.indexOf(a), bi = WP_ORDER.indexOf(b);
-    if (ai===-1 && bi===-1) return a.localeCompare(b);
-    if (ai===-1) return 1; if (bi===-1) return -1;
-    return ai - bi;
+  const wpNames = Object.keys(rawData.workPools).sort((a, b) => {
+    return IMPORTANT_WPS.indexOf(a) - IMPORTANT_WPS.indexOf(b);
   });
-  
-  // Summary: total per work pool
-  let summaryHTML = '';
+
+  // SUMMARY — kompakt kartlar
   let grandTotal = 0;
-  wpNames.forEach(wpName => {
+  let sHTML = '';
+  SUMMARY_WPS.forEach(wpName => {
+    if (!rawData.workPools[wpName]) return;
     const wp = rawData.workPools[wpName];
-    let wpTotal = 0;
     const rows = filterRows(wp.rows);
-    rows.forEach(r => { wpTotal += r.values[0] || 0; }); // values[0] = "Earlier Total" or first value
-    if (wp.grandTotal && currentPP === 'ALL') {
-      wpTotal = wp.grandTotal.values[0] || wpTotal;
-    }
+    let wpTotal = 0;
+    rows.forEach(r => wpTotal += r.values[1] || r.values[0] || 0); // Range Total veya Earlier Total
     grandTotal += wpTotal;
     const label = WP_LABELS[wpName] || wpName;
     const icon = WP_ICONS[wpName] || 'fa-box';
-    summaryHTML += `<div class="summary-card">
-      <div class="label"><i class="fa-solid ${icon}" style="margin-right:4px"></i>${label}</div>
-      <div class="value">${wpTotal.toLocaleString()}</div>
-    </div>`;
+    sHTML += `<div class="summary-card"><div class="label"><i class="fa-solid ${icon}"></i> ${label}</div><div class="value">${wpTotal.toLocaleString()}</div></div>`;
   });
-  summaryHTML = `<div class="summary-card">
-    <div class="label">Toplam</div>
-    <div class="value" style="color:var(--primary)">${grandTotal.toLocaleString()}</div>
-    <div class="sub">${currentPP==='ALL'?'Tüm PP':ppInfo(currentPP).label}</div>
-  </div>` + summaryHTML;
-  summaryEl.innerHTML = summaryHTML;
-  
-  // Work Pool sections
+  sHTML = `<div class="summary-card total-card"><div class="label">TOPLAM</div><div class="value">${grandTotal.toLocaleString()}</div></div>` + sHTML;
+  summaryEl.innerHTML = sHTML;
+
+  // WORK POOL SECTIONS
   let wpHTML = '';
   wpNames.forEach(wpName => {
     const wp = rawData.workPools[wpName];
     const rows = filterRows(wp.rows);
-    if (rows.length === 0 && currentPP !== 'ALL') return;
-    
+    if (rows.length === 0) return;
+
     const label = WP_LABELS[wpName] || wpName;
     const icon = WP_ICONS[wpName] || 'fa-box';
     const headers = wp.cptHeaders || [];
-    
-    // Compute column totals
-    const colTotals = new Array(headers.length + 2).fill(0); // +2 for Earlier & Range total
-    let sectionTotal = 0;
-    rows.forEach(r => {
-      r.values.forEach((v, i) => { colTotals[i] = (colTotals[i]||0) + v; });
-      sectionTotal += r.values[0] || 0;
+
+    // Sadece değer olan CPT kolonlarını göster (sıfır olan kolonları atla)
+    const activeColIndices = [];
+    headers.forEach((h, i) => {
+      const colIdx = i + 2; // values[0]=EarlierTotal, values[1]=RangeTotal, values[2+]=CPT columns
+      let hasData = false;
+      rows.forEach(r => { if ((r.values[colIdx] || 0) > 0) hasData = true; });
+      if (hasData) activeColIndices.push({ headerIdx: i, valueIdx: colIdx, label: h });
     });
-    
-    // If we have grandTotal from original and showing ALL, use that
-    if (wp.grandTotal && currentPP === 'ALL') {
-      sectionTotal = wp.grandTotal.values[0] || sectionTotal;
-    }
-    
+
+    // Section total
+    let sectionTotal = 0;
+    rows.forEach(r => sectionTotal += r.values[1] || r.values[0] || 0);
+
     wpHTML += `<div class="wp-section" id="wp-${wpName}">
       <div class="wp-header" onclick="document.getElementById('wp-${wpName}').classList.toggle('collapsed')">
         <h3><i class="fa-solid fa-chevron-down chv"></i> <i class="fa-solid ${icon}" style="color:var(--text3)"></i> ${label}</h3>
         <span class="total">${sectionTotal.toLocaleString()}</span>
       </div>
-      <div class="wp-body">
-        <table class="data-table">
-          <thead><tr>
-            <th>Process Path</th>
-            ${headers.map(h => `<th>${h}</th>`).join('')}
-          </tr></thead>
-          <tbody>`;
-    
+      <div class="wp-body"><table class="data-table"><thead><tr>
+        <th>Process Path</th>
+        <th>Toplam</th>
+        ${activeColIndices.map(c => `<th>${formatHeader(c.label)}</th>`).join('')}
+      </tr></thead><tbody>`;
+
     rows.forEach(r => {
       const info = ppInfo(r.processPath);
+      const rowTotal = r.values[1] || r.values[0] || 0;
       wpHTML += `<tr>
-        <td><span class="pp-badge ${info.cls}">${r.processPath}</span></td>
-        ${r.values.map((v, i) => {
-          if (i === 0) return `<td style="font-weight:700">${v.toLocaleString()}</td>`;
-          const cls = v===0?'cpt-zero':(isCPTUrgent(headers[i])?'cpt-urgent':(isCPTWarning(headers[i])?'cpt-warning':'cpt-ok'));
-          return `<td class="${cls}">${v||'-'}</td>`;
+        <td><span class="pp-badge ${info.cls}">${info.label}</span></td>
+        <td style="font-weight:700">${rowTotal.toLocaleString()}</td>
+        ${activeColIndices.map(c => {
+          const v = r.values[c.valueIdx] || 0;
+          const cls = v === 0 ? 'cpt-zero' : (isCPTUrgent(c.label) ? 'cpt-urgent' : (isCPTWarning(c.label) ? 'cpt-warning' : 'cpt-ok'));
+          return `<td class="${cls}">${v || '-'}</td>`;
         }).join('')}
       </tr>`;
     });
-    
+
     // Total row
     if (rows.length > 1) {
-      const totRow = (wp.grandTotal && currentPP === 'ALL') ? wp.grandTotal.values : colTotals;
-      wpHTML += `<tr class="total-row"><td>Toplam</td>${totRow.map((v,i) => {
-        return i===0 ? `<td>${(v||0).toLocaleString()}</td>` : `<td>${v||'-'}</td>`;
-      }).join('')}</tr>`;
+      wpHTML += `<tr class="total-row"><td>Toplam</td><td>${sectionTotal.toLocaleString()}</td>`;
+      activeColIndices.forEach(c => {
+        let colSum = 0;
+        rows.forEach(r => colSum += r.values[c.valueIdx] || 0);
+        wpHTML += `<td>${colSum || '-'}</td>`;
+      });
+      wpHTML += `</tr>`;
     }
-    
+
     wpHTML += `</tbody></table></div></div>`;
   });
-  
   wpEl.innerHTML = wpHTML;
 }
 
@@ -762,148 +728,45 @@ function filterRows(rows) {
   return rows.filter(r => r.processPath === currentPP);
 }
 
+function formatHeader(h) {
+  // "Sep 21 13:35" → "21 13:35" (kısa format)
+  if (!h) return '';
+  return h.replace(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+/i, '').trim();
+}
+
 function isCPTUrgent(hdr) {
-  // Heuristic: if header contains today's date and time within 2h
-  // Since headers are like "Sep 21 13:35", we parse them
   try {
-    if (!hdr) return false;
     const now = new Date();
     const parts = hdr.trim().split(/\s+/);
-    if (parts.length < 2) return false;
     const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
     let mo, da, time;
-    if (parts.length === 3) { mo = months[parts[0]]; da = parseInt(parts[1]); time = parts[2]; }
-    else if (parts.length === 2 && parts[1].includes(':')) { 
-      // "09/21 13:35" format
-      const dp = parts[0].split('/');
-      mo = parseInt(dp[0])-1; da = parseInt(dp[1]); time = parts[1];
+    if (parts.length === 3) { mo=months[parts[0]]; da=parseInt(parts[1]); time=parts[2]; }
+    else if (parts.length === 2 && parts[1].includes(':')) {
+      // "21 13:35" after format
+      da=parseInt(parts[0]); time=parts[1]; mo=now.getMonth();
     } else return false;
-    if (mo === undefined || !da || !time) return false;
-    const [h,m] = time.split(':').map(Number);
-    const cptDate = new Date(now.getFullYear(), mo, da, h, m);
-    const diff = (cptDate - now) / 3600000;
-    return diff >= 0 && diff <= 2;
-  } catch { return false; }
+    if (mo===undefined||!da||!time) return false;
+    const [h,m]=time.split(':').map(Number);
+    const cd=new Date(now.getFullYear(),mo,da,h,m);
+    return (cd-now)/36e5>=0&&(cd-now)/36e5<=2;
+  } catch{return false}
 }
 
 function isCPTWarning(hdr) {
   try {
-    if (!hdr) return false;
-    const now = new Date();
-    const parts = hdr.trim().split(/\s+/);
-    if (parts.length < 2) return false;
-    const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-    let mo, da, time;
-    if (parts.length === 3) { mo = months[parts[0]]; da = parseInt(parts[1]); time = parts[2]; }
-    else if (parts.length === 2 && parts[1].includes(':')) {
-      const dp = parts[0].split('/');
-      mo = parseInt(dp[0])-1; da = parseInt(dp[1]); time = parts[1];
-    } else return false;
-    if (mo === undefined || !da || !time) return false;
-    const [h,m] = time.split(':').map(Number);
-    const cptDate = new Date(now.getFullYear(), mo, da, h, m);
-    const diff = (cptDate - now) / 3600000;
-    return diff > 2 && diff <= 4;
-  } catch { return false; }
-}
-
-// ============================================================
-// MANUAL INPUT
-// ============================================================
-function openModal() { document.getElementById('modal').classList.add('show'); }
-function closeModal() { document.getElementById('modal').classList.remove('show'); }
-
-function processManual() {
-  // For manual paste, we parse it as a simple table
-  const text = document.getElementById('manualInput').value.trim();
-  if (!text) return;
-  // Try to detect work pool sections and pivot data from pasted text
-  const data = parseManualText(text);
-  if (data) { loadData(data); closeModal(); }
-}
-
-function parseManualText(text) {
-  // Parse tab-separated text pasted from Rodeo
-  const lines = text.split('\n');
-  const workPools = {};
-  let currentWP = 'Unknown';
-  let currentHeaders = [];
-  
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (!trimmed) continue;
-    
-    // Detect work pool section header (single word matching known WP names)
-    const wpMatch = WP_ORDER.find(wp => trimmed === wp || trimmed.startsWith(wp));
-    if (wpMatch && !trimmed.includes('\t')) {
-      currentWP = wpMatch;
-      currentHeaders = [];
-      continue;
-    }
-    
-    const cols = trimmed.split('\t').map(c => c.trim());
-    
-    // Header row detection
-    if (cols.some(c => c.match(/^(Earlier|Range|Total|Sep|Oct|Nov|Dec|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug)/i))) {
-      currentHeaders = cols;
-      continue;
-    }
-    
-    // Data row: PP name followed by numbers
-    if (cols.length >= 3 && cols[0].match(/^PP|^Gift|^HOT|^Total/i)) {
-      const ppName = cols[0];
-      const values = cols.slice(1).map(c => parseInt(c.replace(/,/g,'')) || 0);
-      const isTotal = ppName.toLowerCase() === 'total';
-      
-      if (!workPools[currentWP]) {
-        workPools[currentWP] = { workPool: currentWP, cptHeaders: currentHeaders.slice(1), rows: [], grandTotal: null };
-      }
-      
-      if (isTotal) {
-        workPools[currentWP].grandTotal = { processPath: 'Total', values, isTotal: true };
-      } else {
-        workPools[currentWP].rows.push({ processPath: ppName, values, isTotal: false });
-      }
-    }
-  }
-  
-  if (Object.keys(workPools).length === 0) return null;
-  return { workPools, timestamp: new Date().toISOString(), fc: 'IST2', source: 'manual' };
-}
-
-// ============================================================
-// SAMPLE DATA
-// ============================================================
-function loadSample() {
-  const cptHeaders = ['Earlier Total','Range Total','Sep 21 13:35','Sep 21 15:05','Sep 21 18:35','Sep 21 23:20','Sep 22 02:00','Sep 22 02:50','Sep 22 05:05','Sep 22 15:05','Sep 22 18:35','Sep 23 02:20','Sep 23 02:50','Sep 23 18:35','Later Total'];
-  const pps = ['PPHOVSLAPSmall','PPMultiMediumZone','PPSingleMedium','PPSingleNoSLAM'];
-  
-  function makeRows(multiplier) {
-    return pps.map(pp => ({
-      processPath: pp,
-      values: cptHeaders.map((_, i) => {
-        if (i === 0) return Math.floor(Math.random()*200*multiplier);
-        if (i === 1) return Math.floor(Math.random()*2000*multiplier);
-        return Math.floor(Math.random()*300*multiplier);
-      }),
-      isTotal: false,
-    }));
-  }
-  function makeTotal(rows) {
-    const tot = new Array(cptHeaders.length).fill(0);
-    rows.forEach(r => r.values.forEach((v,i) => tot[i]+=v));
-    return { processPath:'Total', values: tot, isTotal: true };
-  }
-  
-  const workPools = {};
-  ['PickingPickedInTransit','PickingPickedAtDestination','Inducted','RebinBuffered','Sorted','Packing','Scanned'].forEach(wp => {
-    const mul = wp === 'PickingPickedAtDestination' ? 1.5 : (wp === 'Sorted' ? 0.5 : 1);
-    const rows = makeRows(mul);
-    workPools[wp] = { workPool: wp, cptHeaders, rows, grandTotal: makeTotal(rows) };
-  });
-  
-  loadData({ workPools, timestamp: new Date().toISOString(), fc: 'IST2', source: 'sample' });
-  closeModal();
+    const now=new Date();
+    const parts=hdr.trim().split(/\s+/);
+    const months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+    let mo,da,time;
+    if (parts.length===3){mo=months[parts[0]];da=parseInt(parts[1]);time=parts[2];}
+    else if(parts.length===2&&parts[1].includes(':')){da=parseInt(parts[0]);time=parts[1];mo=now.getMonth();}
+    else return false;
+    if(mo===undefined||!da||!time)return false;
+    const[h,m]=time.split(':').map(Number);
+    const cd=new Date(now.getFullYear(),mo,da,h,m);
+    const diff=(cd-now)/36e5;
+    return diff>2&&diff<=4;
+  } catch{return false}
 }
 
 // Init
