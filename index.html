@@ -350,17 +350,27 @@ body { background: var(--color-bg); color: var(--color-text); }
 a { color: var(--color-link, var(--color-primary)); }</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IST2 Tote Takip — NoSLAM / Single / Wrap / HotPick</title>
+<title>IST2 Picker &amp; Floor Tracker</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:#334155;--primary:#3b82f6;--primary-dim:#1e40af;--success:#22c55e;--warning:#f59e0b;--error:#ef4444;--info:#06b6d4;--font:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;--mono:'Cascadia Code','SF Mono',Consolas,monospace;--radius:10px}
+:root{
+  --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+  --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
+  --border:#334155;
+  --primary:#3b82f6;--primary-dim:#1e40af;
+  --success:#22c55e;--warning:#f59e0b;--error:#ef4444;--info:#06b6d4;
+  --font:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:'Cascadia Code','SF Mono',Consolas,monospace;
+  --radius:10px
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--font);padding:16px;min-height:100vh}
 
+/* HEADER */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:14px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)}
 .header-left{display:flex;align-items:center;gap:12px}
 .header h1{font-size:18px;font-weight:700}
-.header h1 span{color:var(--primary)}
+.header h1 span{color:var(--success)}
 .header-right{display:flex;align-items:center;gap:10px}
 .last-update{font-size:11px;color:var(--text3);font-family:var(--mono)}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600}
@@ -372,53 +382,118 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);padding:16px
 .conn-status.connected .dot{animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* Process Path tabs — sadece bilinen PP'ler */
-.tab-bar{display:flex;gap:4px;margin-bottom:14px;background:var(--bg2);border-radius:var(--radius);padding:4px;border:1px solid var(--border);overflow-x:auto}
-.tab{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;color:var(--text3);border:none;background:transparent}
+/* FILTER BARS */
+.filter-bar{display:flex;gap:4px;margin-bottom:10px;background:var(--bg2);border-radius:var(--radius);padding:4px;border:1px solid var(--border);overflow-x:auto;align-items:center}
+.filter-bar .label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:0 8px;white-space:nowrap}
+.tab{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;color:var(--text3);border:none;background:transparent;font-family:var(--font)}
 .tab:hover{background:var(--bg3);color:var(--text2)}
 .tab.active{background:var(--primary);color:#fff}
-.tab .cnt{font-family:var(--mono);font-size:10px;opacity:.8;margin-left:3px}
+.tab .cnt{font-family:var(--mono);font-size:9px;opacity:.8;margin-left:2px}
 
-/* Summary — sadece önemli work pool'lar */
-.summary-row{display:flex;gap:10px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
-.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;text-align:center;min-width:120px;flex-shrink:0}
-.summary-card .label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;white-space:nowrap}
-.summary-card .value{font-size:22px;font-weight:700;font-family:var(--mono)}
+/* Floor tabs custom colors */
+.tab.floor-tab.active[data-floor="HRV"]{background:#64748b}
+.tab.floor-tab.active[data-floor="P1"]{background:#6366f1}
+.tab.floor-tab.active[data-floor="P2"]{background:#0ea5e9}
+.tab.floor-tab.active[data-floor="P3"]{background:#8b5cf6}
+.tab.floor-tab.active[data-floor="P4"]{background:#06b6d4}
+.tab.floor-tab.active[data-floor="P5"]{background:#f59e0b}
+.tab.floor-tab.active[data-floor="P6"]{background:#ec4899}
+
+/* SUMMARY */
+.summary-row{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;text-align:center;min-width:90px;flex-shrink:0;cursor:pointer;transition:all .2s}
+.summary-card:hover{border-color:var(--primary-dim)}
+.summary-card.active-fl{border-color:var(--success);background:#22c55e10}
+.summary-card .s-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;white-space:nowrap}
+.summary-card .s-value{font-size:20px;font-weight:800;font-family:var(--mono)}
 .summary-card.total-card{border-color:var(--primary-dim)}
-.summary-card.total-card .value{color:var(--primary)}
+.summary-card.total-card .s-value{color:var(--primary)}
 
-/* Work Pool sections */
-.wp-section{margin-bottom:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.wp-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg3);cursor:pointer;user-select:none}
-.wp-header h3{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
-.wp-header .total{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--primary)}
-.wp-body{max-height:2000px;overflow-x:auto;transition:max-height .3s ease}
-.wp-section.collapsed .wp-body{max-height:0;overflow:hidden}
-.wp-header .chv{transition:transform .3s;font-size:11px}
-.wp-section.collapsed .wp-header .chv{transform:rotate(-90deg)}
+/* THRESHOLD BAR */
+.thr-bar{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding:8px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);font-size:11px;color:var(--text3);flex-wrap:wrap}
+.thr-bar .dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px}
+.thr-bar .dot.ok{background:var(--success)}.thr-bar .dot.warn{background:var(--warning)}.thr-bar .dot.crit{background:var(--error)}
+.thr-bar input{width:48px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;padding:3px 6px;font-family:var(--mono);outline:none}
+.thr-bar input:focus{border-color:var(--primary)}
+.thr-bar button{background:var(--success);color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font)}
 
-/* Data table — daha kompakt */
-.data-table{width:100%;border-collapse:collapse;font-size:11px}
-.data-table th{text-align:center;padding:6px 4px;font-weight:600;color:var(--text3);font-size:9px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:1;white-space:nowrap}
-.data-table th:first-child{text-align:left;padding-left:14px;min-width:130px}
-.data-table td{text-align:center;padding:5px 4px;font-family:var(--mono);font-size:11px;border-bottom:1px solid rgba(51,65,85,.4)}
-.data-table td:first-child{text-align:left;padding-left:14px;font-family:var(--font);font-weight:600;color:var(--text2)}
-.data-table tr:hover td{background:rgba(59,130,246,.05)}
-.data-table tr.total-row td{font-weight:700;color:var(--primary);border-top:2px solid var(--primary-dim);background:rgba(59,130,246,.05)}
+/* CPT SECTIONS */
+.cpt-section{margin-bottom:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.cpt-section.has-crit{border-color:#ef444480}
+.cpt-section.has-warn{border-color:#f59e0b60}
+.cpt-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg3);cursor:pointer;user-select:none;gap:12px;flex-wrap:wrap}
+.cpt-header:hover{background:#3b4a5e}
+.cpt-header .left{display:flex;align-items:center;gap:10px}
+.cpt-header .chv{font-size:10px;color:var(--text3);transition:transform .2s}
+.cpt-header .chv.open{transform:rotate(90deg);color:var(--success)}
+.cpt-header .cpt-label{font-size:15px;font-weight:800;letter-spacing:.5px}
+.cpt-header .countdown{font-size:10px;padding:2px 8px;border-radius:5px;font-weight:700}
+.countdown.late{background:#ef444430;color:#f87171;border:1px solid #ef444450}
+.countdown.soon{background:#f59e0b30;color:#fbbf24;border:1px solid #f59e0b50}
+.countdown.ok{background:#22c55e20;color:#4ade80;border:1px solid #22c55e40}
+.cpt-header .stats{display:flex;gap:16px;align-items:center}
+.cpt-header .stat{text-align:center}
+.cpt-header .stat-val{font-size:18px;font-weight:800;font-family:var(--mono);line-height:1}
+.cpt-header .stat-lbl{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.cpt-body{display:none;overflow-x:auto}
+.cpt-body.open{display:block}
 
-.cpt-urgent{color:var(--error)!important;font-weight:700!important}
-.cpt-warning{color:var(--warning)!important;font-weight:600!important}
-.cpt-ok{color:var(--success)!important}
-.cpt-zero{color:var(--text3)!important}
+/* TABLE */
+.tote-table{width:100%;border-collapse:collapse;font-size:11px}
+.tote-table th{text-align:left;padding:7px 10px;font-weight:700;color:var(--text3);font-size:9px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:1;white-space:nowrap}
+.tote-table td{padding:6px 10px;border-bottom:1px solid rgba(51,65,85,.3);color:var(--text);font-size:11px}
+.tote-table tr:hover td{background:rgba(59,130,246,.06)}
+.tote-table tr.row-crit td{border-left:3px solid var(--error)}
+.tote-table tr.row-warn td{border-left:3px solid var(--warning)}
+
+/* BADGES */
+.dwell-badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:700;font-family:var(--mono)}
+.dwell-badge.crit{background:#ef444425;color:#f87171}.dwell-badge.warn{background:#f59e0b25;color:#fbbf24}.dwell-badge.ok{background:#22c55e20;color:#4ade80}
 
 .pp-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;font-family:var(--mono)}
-.pp-noslam{background:#f59e0b20;color:#fbbf24}
-.pp-single{background:#3b82f620;color:#60a5fa}
-.pp-multi{background:#22c55e20;color:#4ade80}
-.pp-hov{background:#06b6d420;color:#22d3ee}
-.pp-wrap{background:#a78bfa20;color:#c4b5fd}
-.pp-hotpick{background:#ef444420;color:#f87171}
+.pp-noslam{background:#f59e0b20;color:#fbbf24}.pp-single{background:#3b82f620;color:#60a5fa}
+.pp-multi{background:#22c55e20;color:#4ade80}.pp-hov{background:#06b6d420;color:#22d3ee}
+.pp-wrap{background:#a78bfa20;color:#c4b5fd}.pp-hotpick{background:#ef444420;color:#f87171}
 .pp-other{background:#64748b20;color:#94a3b8}
+
+.floor-badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700}
+.floor-HRV{background:#64748b25;color:#94a3b8}.floor-P1{background:#6366f125;color:#a5b4fc}
+.floor-P2{background:#0ea5e925;color:#38bdf8}.floor-P3{background:#8b5cf625;color:#c4b5fd}
+.floor-P4{background:#06b6d425;color:#22d3ee}.floor-P5{background:#f59e0b25;color:#fbbf24}
+.floor-P6{background:#ec489925;color:#f472b6}
+
+.scannable-link{color:var(--info);text-decoration:none;font-family:var(--mono);font-weight:600;font-size:11px}
+.scannable-link:hover{text-decoration:underline;color:#22d3ee}
+.picker-text{color:#a78bfa;font-weight:700;font-size:11px}
+.picker-na{color:var(--text3);font-size:10px}
+
+.msg-btn{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:5px;padding:2px 8px;font-size:10px;cursor:pointer;font-weight:600;transition:all .15s;font-family:var(--font)}
+.msg-btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(99,102,241,.4)}
+.msg-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.msg-btn.sent{background:linear-gradient(135deg,#22c55e,#16a34a)}
+
+/* WP section headers */
+.wp-group{margin-bottom:16px}
+.wp-group-header{font-size:13px;font-weight:700;color:var(--text2);padding:8px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;display:flex;align-items:center;gap:8px;cursor:pointer}
+.wp-group-header i{color:var(--text3)}
+.wp-group-header .total{margin-left:auto;font-family:var(--mono);color:var(--primary);font-size:14px;font-weight:800}
+
+/* MSG MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:100000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:var(--font)}
+.modal h3{font-size:16px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.modal .to{font-size:12px;color:var(--text2);margin-bottom:10px}
+.modal .to strong{color:#a78bfa}
+.modal .templates{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.modal .tpl{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:11px;color:var(--text2);cursor:pointer;transition:all .15s;text-align:left;font-family:var(--font);width:100%}
+.modal .tpl:hover{border-color:var(--primary);color:var(--primary)}
+.modal .tpl.selected{border-color:var(--primary);background:#3b82f615;color:var(--primary)}
+.modal textarea{width:100%;height:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--text);font-family:var(--font);outline:none;resize:vertical}
+.modal textarea:focus{border-color:var(--success)}
+.modal .actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+.modal .btn-send{background:linear-gradient(135deg,var(--success),#16a34a);color:#fff;border:none;border-radius:8px;padding:7px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font)}
+.modal .btn-cancel{background:var(--bg3);border:1px solid var(--border);color:var(--text3);border-radius:8px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.modal .btn-cancel:hover{border-color:var(--error);color:var(--error)}
 
 .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
 .empty-state i{font-size:48px;margin-bottom:16px;display:block;color:var(--bg3)}
@@ -437,35 +512,78 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);padding:16px
 
 <div class="header">
   <div class="header-left">
-    <h1><i class="fa-solid fa-boxes-stacked" style="color:var(--primary)"></i> IST2 <span>Tote Takip</span></h1>
+    <h1><i class="fa-solid fa-building" style="color:var(--success)"></i> IST2 <span>Picker &amp; Floor Tracker</span></h1>
     <span class="badge badge-fc"><i class="fa-solid fa-building"></i> IST2</span>
   </div>
   <div class="header-right">
     <div class="conn-status waiting" id="connStatus"><span class="dot"></span><span id="connLabel">Bekleniyor</span></div>
     <span class="last-update" id="lastUpdate">—</span>
-    <button class="btn-icon" onclick="checkAllSources()" title="Yenile"><i class="fa-solid fa-rotate"></i></button>
+    <button class="btn-icon" onclick="checkStorage()" title="Yenile"><i class="fa-solid fa-rotate"></i></button>
   </div>
 </div>
 
-<div class="tab-bar" id="ppTabs"></div>
+<!-- FLOOR FILTER -->
+<div class="filter-bar" id="floorBar">
+  <span class="label">🏢 Kat</span>
+</div>
+
+<!-- PP FILTER -->
+<div class="filter-bar" id="ppBar">
+  <span class="label">📋 PP</span>
+</div>
+
+<!-- WP FILTER -->
+<div class="filter-bar" id="wpBar">
+  <span class="label">📦 WP</span>
+</div>
+
+<!-- THRESHOLD -->
+<div class="thr-bar">
+  <span><span class="dot ok"></span> OK</span>
+  <span><span class="dot warn"></span> Warning</span>
+  <span><span class="dot crit"></span> Critical</span>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:6px">
+    ⚠️ Warn (dk): <input id="thrWarn" type="number" value="30" min="1">
+    🔴 Crit (dk): <input id="thrCrit" type="number" value="60" min="1">
+    <button onclick="applyThreshold()">Uygula</button>
+  </span>
+</div>
+
+<!-- SUMMARY -->
 <div class="summary-row" id="summaryRow"></div>
-<div id="workPoolSections"></div>
-<div class="empty-state" id="emptyState">
-  <i class="fa-solid fa-satellite-dish"></i>
-  <h3>Rodeo Bağlantısı Bekleniyor</h3>
-  <p>Tampermonkey script Rodeo'da çalıştığında veri otomatik gelecek.</p>
+
+<!-- CPT FILTER -->
+<div class="filter-bar" id="cptBar" style="display:none">
+  <span class="label">⏰ CPT</span>
+</div>
+
+<!-- BODY -->
+<div id="mainBody">
+  <div class="empty-state" id="emptyState">
+    <i class="fa-solid fa-satellite-dish"></i>
+    <h3>Rodeo Bağlantısı Bekleniyor</h3>
+    <p>Tampermonkey script Rodeo'da çalıştığında picker &amp; floor verisi otomatik gelecek.</p>
+  </div>
 </div>
 
 <script>
-// ============================================================
+// ═══════════════════════════════════════════════════════════════
 // STATE
-// ============================================================
-let rawData = null;
+// ═══════════════════════════════════════════════════════════════
+let pickerData = null;
+let currentFloor = 'ALL';
 let currentPP = 'ALL';
+let currentWP = 'ALL';
+let currentCPT = 'ALL';
+let warnThr = 30;
+let critThr = 60;
 
-// ============================================================
-// BİLİNEN PROCESS PATH'LER — SADECE BUNLAR GÖSTERİLECEK
-// ============================================================
+const MSG_TEMPLATES = [
+  'Selamlar kolay gelsin, üzerindeki {id} tote\'u gönderebilir misin, teşekkürler.',
+  '{id} tote\'u lütfen kontrol et.',
+  'CPT yaklaşıyor, {id} acil gönderilmesi lazım.',
+];
+
 const KNOWN_PP = {
   'PPSingleNoSLAM':      { label:'NoSLAM',   icon:'📦', cls:'pp-noslam' },
   'PPSingleMedium':      { label:'Single',   icon:'📋', cls:'pp-single' },
@@ -478,301 +596,358 @@ const KNOWN_PP = {
   'PPHOVSLAPLarge':      { label:'HOV-L',    icon:'🏷️', cls:'pp-hov' },
 };
 
-function isKnownPP(name) {
-  if (KNOWN_PP[name]) return true;
-  const n = name.toUpperCase();
-  // PP ile başlayan veya bilinen keyword içerenler
-  if (n.startsWith('PP')) return true;
-  if (n === 'GIFTWRAP' || n === 'GIFT WRAP') return true;
-  // Bilinmeyen şeyleri atla: sayılar, ASIN, In Scanner, vs.
-  if (n.match(/^\d/)) return false;           // sayı ile başlayan
-  if (n === 'IN SCANNER' || n === 'TOTAL') return false;
-  if (n.length < 4) return false;             // çok kısa
-  if (n === 'ASIN' || n === 'HOV BATCHES') return false;
-  return true; // PP ile başlamayan ama bilinen olabilir
-}
+const WP_LABELS = {
+  'PickingPickedInTransit':'Transit',
+  'PickingPickedAtDestination':'Destination',
+  'PickingNotYetPicked':'Not Yet Picked',
+  'ReadyToPick':'Ready To Pick',
+};
+
+const FLOOR_COLORS = {
+  HRV:'#64748b', P1:'#6366f1', P2:'#0ea5e9', P3:'#8b5cf6',
+  P4:'#06b6d4', P5:'#f59e0b', P6:'#ec4899'
+};
 
 function ppInfo(name) {
   if (KNOWN_PP[name]) return KNOWN_PP[name];
-  const n = name.toUpperCase();
-  if (n.includes('NOSLAM'))  return { label:name, icon:'📦', cls:'pp-noslam' };
-  if (n.includes('SINGLE'))  return { label:name, icon:'📋', cls:'pp-single' };
-  if (n.includes('MULTI'))   return { label:name, icon:'📚', cls:'pp-multi' };
-  if (n.includes('HOV'))     return { label:name, icon:'🏷️', cls:'pp-hov' };
-  if (n.includes('WRAP') || n.includes('GIFT')) return { label:name, icon:'🎁', cls:'pp-wrap' };
-  if (n.includes('HOT'))     return { label:name, icon:'🔥', cls:'pp-hotpick' };
+  const n = (name||'').toUpperCase();
+  if (n.includes('NOSLAM')) return { label:name, icon:'📦', cls:'pp-noslam' };
+  if (n.includes('SINGLE')) return { label:name, icon:'📋', cls:'pp-single' };
+  if (n.includes('MULTI') && n.includes('WRAP')) return { label:name, icon:'🎁', cls:'pp-wrap' };
+  if (n.includes('MULTI')) return { label:name, icon:'📚', cls:'pp-multi' };
+  if (n.includes('HOV')) return { label:name, icon:'🏷️', cls:'pp-hov' };
+  if (n.includes('WRAP')||n.includes('GIFT')) return { label:name, icon:'🎁', cls:'pp-wrap' };
   return { label:name, icon:'📄', cls:'pp-other' };
 }
 
-// ============================================================
-// BİLİNEN WORK POOL'LAR — SADECE BUNLAR GÖSTERİLECEK
-// ============================================================
-const IMPORTANT_WPS = [
-  'ReadyToPick','PickingNotYetPicked','PickingPickedInTransit',
-  'PickingPickedAtDestination','Inducted','RebinBuffered','Sorted',
-  'Packing','Scanned','ProblemSolving'
-];
-
-const WP_LABELS = {
-  'ReadyToPick':'Ready To Pick','PickingNotYetPicked':'Not Yet Picked',
-  'PickingPickedInTransit':'Picked In Transit','PickingPickedAtDestination':'Picked At Dest.',
-  'Inducted':'Inducted','RebinBuffered':'Rebin Buffered','Sorted':'Sorted',
-  'Packing':'Packing','Scanned':'Scanned','ProblemSolving':'Problem Solving',
-};
-const WP_ICONS = {
-  'ReadyToPick':'fa-clock','PickingNotYetPicked':'fa-hourglass-start',
-  'PickingPickedInTransit':'fa-truck','PickingPickedAtDestination':'fa-location-dot',
-  'Inducted':'fa-arrow-right-to-bracket','RebinBuffered':'fa-layer-group','Sorted':'fa-bars-staggered',
-  'Packing':'fa-box','Scanned':'fa-barcode','ProblemSolving':'fa-triangle-exclamation',
-};
-
-// SUMMARY'de gösterilecek ana work pool'lar
-const SUMMARY_WPS = [
-  'ReadyToPick','PickingNotYetPicked','PickingPickedInTransit',
-  'PickingPickedAtDestination','RebinBuffered','Sorted','Packing','Scanned','ProblemSolving'
-];
-
-// ============================================================
-// RECEIVE DATA
-// ============================================================
-window.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'IST2_BUFFER_DATA') loadData(e.data.payload);
-});
-
-function checkHash() {
-  const h = window.location.hash;
-  if (h.startsWith('#data=')) {
-    try {
-      const json = decodeURIComponent(escape(atob(h.substring(6))));
-      loadData(JSON.parse(json));
-      history.replaceState(null, '', window.location.pathname);
-    } catch(e) {}
-  }
-}
-
+// ═══════════════════════════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════════════════════════
 function checkStorage() {
   try {
-    const stored = localStorage.getItem('ist2_buffer_data');
+    const stored = localStorage.getItem('ist2_picker_data');
     if (!stored) return;
     const data = JSON.parse(stored);
-    const ts = data.timestamp || '';
-    const lastTs = sessionStorage.getItem('ist2_last_ts');
-    if (ts && ts !== lastTs) { loadData(data); sessionStorage.setItem('ist2_last_ts', ts); }
-  } catch(e) {}
+    if (!data || !data.totes) return;
+    loadData(data);
+  } catch(e) { console.error('Parse error:', e); }
 }
 
-function checkAllSources() { checkHash(); checkStorage(); }
-setInterval(checkStorage, 10000);
-
 function loadData(data) {
-  if (!data || !data.workPools) return;
-  
-  // Veriyi temizle — sadece bilinen PP satırlarını tut
-  const cleaned = { workPools: {}, timestamp: data.timestamp, fc: data.fc };
-  
-  for (const [wpName, wp] of Object.entries(data.workPools)) {
-    // Sadece bilinen work pool'ları al
-    if (!IMPORTANT_WPS.includes(wpName)) continue;
-    
-    const cleanRows = wp.rows.filter(r => isKnownPP(r.processPath));
-    if (cleanRows.length === 0) continue;
-    
-    // Grand total'i yeniden hesapla (sadece bilinen PP'ler için)
-    const newTotal = new Array(wp.cptHeaders.length + 5).fill(0);
-    cleanRows.forEach(r => r.values.forEach((v, i) => newTotal[i] = (newTotal[i]||0) + v));
-    
-    cleaned.workPools[wpName] = {
-      ...wp,
-      rows: cleanRows,
-      grandTotal: { processPath: 'Toplam', values: newTotal, isTotal: true }
-    };
-  }
-  
-  rawData = cleaned;
+  pickerData = data;
   const time = data.timestamp
     ? new Date(data.timestamp).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})
-    : new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const wpCount = Object.keys(cleaned.workPools).length;
-  document.getElementById('lastUpdate').textContent = `${time} — ${wpCount} work pool`;
+    : '--';
+  document.getElementById('lastUpdate').textContent = `${time} — ${data.stats?.totalTotes || 0} tote · ${data.stats?.totalItems || 0} item`;
   document.getElementById('connStatus').className = 'conn-status connected';
   document.getElementById('connLabel').textContent = 'Rodeo bağlı';
-  buildTabs();
+  document.getElementById('emptyState').style.display = 'none';
+
+  buildFilters();
   render();
 }
 
-// ============================================================
-// TABS
-// ============================================================
-function getAllPPs() {
-  if (!rawData) return [];
-  const ppSet = new Set();
-  Object.values(rawData.workPools).forEach(wp => wp.rows.forEach(r => ppSet.add(r.processPath)));
-  return [...ppSet].sort();
-}
-
-function buildTabs() {
-  const pps = getAllPPs();
-  const el = document.getElementById('ppTabs');
-  let html = `<button class="tab ${currentPP==='ALL'?'active':''}" onclick="selectPP('ALL')">Tümü</button>`;
-  pps.forEach(pp => {
-    const info = ppInfo(pp);
-    html += `<button class="tab ${currentPP===pp?'active':''}" onclick="selectPP('${pp}')">${info.icon} ${info.label}</button>`;
-  });
-  el.innerHTML = html;
-}
-
-function selectPP(pp) { currentPP = pp; buildTabs(); render(); }
-
-// ============================================================
-// RENDER
-// ============================================================
-function render() {
-  const emptyEl = document.getElementById('emptyState');
-  const summaryEl = document.getElementById('summaryRow');
-  const wpEl = document.getElementById('workPoolSections');
-
-  if (!rawData || Object.keys(rawData.workPools).length === 0) {
-    emptyEl.style.display = 'block'; summaryEl.innerHTML = ''; wpEl.innerHTML = ''; return;
-  }
-  emptyEl.style.display = 'none';
-
-  // Sort work pools
-  const wpNames = Object.keys(rawData.workPools).sort((a, b) => {
-    return IMPORTANT_WPS.indexOf(a) - IMPORTANT_WPS.indexOf(b);
-  });
-
-  // SUMMARY — kompakt kartlar
-  let grandTotal = 0;
-  let sHTML = '';
-  SUMMARY_WPS.forEach(wpName => {
-    if (!rawData.workPools[wpName]) return;
-    const wp = rawData.workPools[wpName];
-    const rows = filterRows(wp.rows);
-    let wpTotal = 0;
-    rows.forEach(r => wpTotal += r.values[1] || r.values[0] || 0); // Range Total veya Earlier Total
-    grandTotal += wpTotal;
-    const label = WP_LABELS[wpName] || wpName;
-    const icon = WP_ICONS[wpName] || 'fa-box';
-    sHTML += `<div class="summary-card"><div class="label"><i class="fa-solid ${icon}"></i> ${label}</div><div class="value">${wpTotal.toLocaleString()}</div></div>`;
-  });
-  sHTML = `<div class="summary-card total-card"><div class="label">TOPLAM</div><div class="value">${grandTotal.toLocaleString()}</div></div>` + sHTML;
-  summaryEl.innerHTML = sHTML;
-
-  // WORK POOL SECTIONS
-  let wpHTML = '';
-  wpNames.forEach(wpName => {
-    const wp = rawData.workPools[wpName];
-    const rows = filterRows(wp.rows);
-    if (rows.length === 0) return;
-
-    const label = WP_LABELS[wpName] || wpName;
-    const icon = WP_ICONS[wpName] || 'fa-box';
-    const headers = wp.cptHeaders || [];
-
-    // Sadece değer olan CPT kolonlarını göster (sıfır olan kolonları atla)
-    const activeColIndices = [];
-    headers.forEach((h, i) => {
-      const colIdx = i + 2; // values[0]=EarlierTotal, values[1]=RangeTotal, values[2+]=CPT columns
-      let hasData = false;
-      rows.forEach(r => { if ((r.values[colIdx] || 0) > 0) hasData = true; });
-      if (hasData) activeColIndices.push({ headerIdx: i, valueIdx: colIdx, label: h });
-    });
-
-    // Section total
-    let sectionTotal = 0;
-    rows.forEach(r => sectionTotal += r.values[1] || r.values[0] || 0);
-
-    wpHTML += `<div class="wp-section" id="wp-${wpName}">
-      <div class="wp-header" onclick="document.getElementById('wp-${wpName}').classList.toggle('collapsed')">
-        <h3><i class="fa-solid fa-chevron-down chv"></i> <i class="fa-solid ${icon}" style="color:var(--text3)"></i> ${label}</h3>
-        <span class="total">${sectionTotal.toLocaleString()}</span>
-      </div>
-      <div class="wp-body"><table class="data-table"><thead><tr>
-        <th>Process Path</th>
-        <th>Toplam</th>
-        ${activeColIndices.map(c => `<th>${formatHeader(c.label)}</th>`).join('')}
-      </tr></thead><tbody>`;
-
-    rows.forEach(r => {
-      const info = ppInfo(r.processPath);
-      const rowTotal = r.values[1] || r.values[0] || 0;
-      wpHTML += `<tr>
-        <td><span class="pp-badge ${info.cls}">${info.label}</span></td>
-        <td style="font-weight:700">${rowTotal.toLocaleString()}</td>
-        ${activeColIndices.map(c => {
-          const v = r.values[c.valueIdx] || 0;
-          const cls = v === 0 ? 'cpt-zero' : (isCPTUrgent(c.label) ? 'cpt-urgent' : (isCPTWarning(c.label) ? 'cpt-warning' : 'cpt-ok'));
-          return `<td class="${cls}">${v || '-'}</td>`;
-        }).join('')}
-      </tr>`;
-    });
-
-    // Total row
-    if (rows.length > 1) {
-      wpHTML += `<tr class="total-row"><td>Toplam</td><td>${sectionTotal.toLocaleString()}</td>`;
-      activeColIndices.forEach(c => {
-        let colSum = 0;
-        rows.forEach(r => colSum += r.values[c.valueIdx] || 0);
-        wpHTML += `<td>${colSum || '-'}</td>`;
-      });
-      wpHTML += `</tr>`;
-    }
-
-    wpHTML += `</tbody></table></div></div>`;
-  });
-  wpEl.innerHTML = wpHTML;
-}
-
-function filterRows(rows) {
-  if (currentPP === 'ALL') return rows;
-  return rows.filter(r => r.processPath === currentPP);
-}
-
-function formatHeader(h) {
-  // "Sep 21 13:35" → "21 13:35" (kısa format)
-  if (!h) return '';
-  return h.replace(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+/i, '').trim();
-}
-
-function isCPTUrgent(hdr) {
-  try {
-    const now = new Date();
-    const parts = hdr.trim().split(/\s+/);
-    const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-    let mo, da, time;
-    if (parts.length === 3) { mo=months[parts[0]]; da=parseInt(parts[1]); time=parts[2]; }
-    else if (parts.length === 2 && parts[1].includes(':')) {
-      // "21 13:35" after format
-      da=parseInt(parts[0]); time=parts[1]; mo=now.getMonth();
-    } else return false;
-    if (mo===undefined||!da||!time) return false;
-    const [h,m]=time.split(':').map(Number);
-    const cd=new Date(now.getFullYear(),mo,da,h,m);
-    return (cd-now)/36e5>=0&&(cd-now)/36e5<=2;
-  } catch{return false}
-}
-
-function isCPTWarning(hdr) {
-  try {
-    const now=new Date();
-    const parts=hdr.trim().split(/\s+/);
-    const months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-    let mo,da,time;
-    if (parts.length===3){mo=months[parts[0]];da=parseInt(parts[1]);time=parts[2];}
-    else if(parts.length===2&&parts[1].includes(':')){da=parseInt(parts[0]);time=parts[1];mo=now.getMonth();}
-    else return false;
-    if(mo===undefined||!da||!time)return false;
-    const[h,m]=time.split(':').map(Number);
-    const cd=new Date(now.getFullYear(),mo,da,h,m);
-    const diff=(cd-now)/36e5;
-    return diff>2&&diff<=4;
-  } catch{return false}
-}
-
-// Init
-checkHash();
+setInterval(checkStorage, 8000);
 checkStorage();
-render();
+
+// ═══════════════════════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════════════════════
+function buildFilters() {
+  if (!pickerData) return;
+  const totes = pickerData.totes;
+
+  // Floor filter
+  const floorCounts = {};
+  totes.forEach(t => { const f = t.floor || 'N/A'; floorCounts[f] = (floorCounts[f]||0) + 1; });
+  const floorBar = document.getElementById('floorBar');
+  floorBar.innerHTML = '<span class="label">🏢 Kat</span>';
+  const allFloorBtn = mkTab('ALL', 'Tümü (' + totes.length + ')', currentFloor==='ALL', () => { currentFloor='ALL'; buildFilters(); render(); });
+  floorBar.appendChild(allFloorBtn);
+  ['HRV','P1','P2','P3','P4','P5','P6'].forEach(fl => {
+    if (!floorCounts[fl]) return;
+    const btn = mkTab(fl, fl + ' (' + floorCounts[fl] + ')', currentFloor===fl, () => { currentFloor=fl; buildFilters(); render(); });
+    btn.classList.add('floor-tab');
+    btn.dataset.floor = fl;
+    floorBar.appendChild(btn);
+  });
+  if (floorCounts['N/A']) {
+    const btn = mkTab('N/A', 'Bilinmeyen (' + floorCounts['N/A'] + ')', currentFloor==='N/A', () => { currentFloor='N/A'; buildFilters(); render(); });
+    floorBar.appendChild(btn);
+  }
+
+  // PP filter
+  const ppCounts = {};
+  totes.forEach(t => { ppCounts[t.processPath] = (ppCounts[t.processPath]||0) + 1; });
+  const ppBarEl = document.getElementById('ppBar');
+  ppBarEl.innerHTML = '<span class="label">📋 PP</span>';
+  ppBarEl.appendChild(mkTab('ALL', 'Tümü', currentPP==='ALL', () => { currentPP='ALL'; buildFilters(); render(); }));
+  Object.keys(ppCounts).sort().forEach(pp => {
+    const info = ppInfo(pp);
+    ppBarEl.appendChild(mkTab(pp, info.icon + ' ' + info.label + ' (' + ppCounts[pp] + ')', currentPP===pp, () => { currentPP=pp; buildFilters(); render(); }));
+  });
+
+  // WP filter
+  const wpCounts = {};
+  totes.forEach(t => { const g = t.groupWP || t.workPool; wpCounts[g] = (wpCounts[g]||0) + 1; });
+  const wpBarEl = document.getElementById('wpBar');
+  wpBarEl.innerHTML = '<span class="label">📦 WP</span>';
+  wpBarEl.appendChild(mkTab('ALL', 'Tümü', currentWP==='ALL', () => { currentWP='ALL'; buildFilters(); render(); }));
+  Object.keys(wpCounts).sort().forEach(wp => {
+    const label = WP_LABELS[wp] || wp;
+    wpBarEl.appendChild(mkTab(wp, label + ' (' + wpCounts[wp] + ')', currentWP===wp, () => { currentWP=wp; buildFilters(); render(); }));
+  });
+
+  // CPT filter
+  const cptCounts = {};
+  totes.forEach(t => { cptCounts[t.cpt] = (cptCounts[t.cpt]||0) + 1; });
+  const cptBarEl = document.getElementById('cptBar');
+  cptBarEl.style.display = 'flex';
+  cptBarEl.innerHTML = '<span class="label">⏰ CPT</span>';
+  cptBarEl.appendChild(mkTab('ALL', 'Tümü', currentCPT==='ALL', () => { currentCPT='ALL'; render(); }));
+  Object.keys(cptCounts).sort().forEach(cpt => {
+    cptBarEl.appendChild(mkTab(cpt, formatCPT(cpt) + ' (' + cptCounts[cpt] + ')', currentCPT===cpt, () => { currentCPT=cpt; render(); }));
+  });
+}
+
+function mkTab(value, text, active, onclick) {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (active ? ' active' : '');
+  btn.textContent = text;
+  btn.onclick = onclick;
+  return btn;
+}
+
+function formatCPT(cpt) {
+  if (!cpt) return '?';
+  // "Sep 22 23:20" → "22 23:20"
+  return cpt.replace(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+/i, '').trim();
+}
+
+function applyThreshold() {
+  const w = parseInt(document.getElementById('thrWarn').value);
+  const c = parseInt(document.getElementById('thrCrit').value);
+  if (!isNaN(w) && w > 0) warnThr = w;
+  if (!isNaN(c) && c > 0) critThr = c;
+  if (critThr <= warnThr) { critThr = warnThr + 1; document.getElementById('thrCrit').value = critThr; }
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
+function render() {
+  if (!pickerData) return;
+  let totes = pickerData.totes;
+
+  // Apply filters
+  if (currentFloor !== 'ALL') {
+    if (currentFloor === 'N/A') totes = totes.filter(t => !t.floor);
+    else totes = totes.filter(t => t.floor === currentFloor);
+  }
+  if (currentPP !== 'ALL') totes = totes.filter(t => t.processPath === currentPP);
+  if (currentWP !== 'ALL') totes = totes.filter(t => (t.groupWP || t.workPool) === currentWP);
+  if (currentCPT !== 'ALL') totes = totes.filter(t => t.cpt === currentCPT);
+
+  renderSummary(totes);
+  renderSections(totes);
+}
+
+function renderSummary(totes) {
+  const total = totes.length;
+  const critCount = totes.filter(t => t.dwellMin >= critThr).length;
+  const maxDwell = total ? Math.max(...totes.map(t => t.dwellMin)) : 0;
+  const pickerCount = totes.filter(t => t.pickerLogin).length;
+
+  const floorCounts = {};
+  ['HRV','P1','P2','P3','P4','P5','P6'].forEach(f => floorCounts[f] = 0);
+  totes.forEach(t => { if (t.floor && floorCounts.hasOwnProperty(t.floor)) floorCounts[t.floor]++; });
+
+  let html = '';
+  html += `<div class="summary-card total-card"><div class="s-value">${total}</div><div class="s-label">Total Tote</div></div>`;
+  html += `<div class="summary-card"><div class="s-value" style="color:var(--error)">${critCount}</div><div class="s-label">Critical</div></div>`;
+  html += `<div class="summary-card"><div class="s-value" style="color:var(--warning)">${maxDwell}</div><div class="s-label">Max Dwell</div></div>`;
+  html += `<div class="summary-card"><div class="s-value" style="color:#a78bfa">${pickerCount}</div><div class="s-label">Picker</div></div>`;
+
+  Object.keys(floorCounts).forEach(fl => {
+    const cnt = floorCounts[fl];
+    const isActive = currentFloor === fl;
+    html += `<div class="summary-card ${isActive?'active-fl':''}" onclick="currentFloor='${fl}';buildFilters();render()">
+      <div class="s-value" style="color:${FLOOR_COLORS[fl]||'#94a3b8'}">${cnt}</div>
+      <div class="s-label">${fl}</div></div>`;
+  });
+
+  document.getElementById('summaryRow').innerHTML = html;
+}
+
+function renderSections(totes) {
+  const body = document.getElementById('mainBody');
+
+  // Group by CPT
+  const cptGroups = {};
+  totes.forEach(t => {
+    if (!cptGroups[t.cpt]) cptGroups[t.cpt] = [];
+    cptGroups[t.cpt].push(t);
+  });
+
+  const sortedCPTs = Object.keys(cptGroups).sort();
+  if (!sortedCPTs.length) {
+    body.innerHTML = '<div class="empty-state"><i class="fa-solid fa-filter-circle-xmark"></i><h3>Filtre sonucu boş</h3><p>Seçili filtrelere uyan tote bulunamadı.</p></div>';
+    return;
+  }
+
+  let html = '';
+  sortedCPTs.forEach((cpt, ci) => {
+    const items = cptGroups[cpt];
+    items.sort((a, b) => b.dwellMin - a.dwellMin);
+
+    const critCount = items.filter(t => t.dwellMin >= critThr).length;
+    const warnCount = items.filter(t => t.dwellMin >= warnThr && t.dwellMin < critThr).length;
+    const maxDwell = items.length ? Math.max(...items.map(t => t.dwellMin)) : 0;
+    const hasCrit = critCount > 0;
+    const hasWarn = warnCount > 0;
+
+    const cd = countdownLabel(cpt);
+    const cdHTML = cd ? `<span class="countdown ${cd.cls}">${cd.text}</span>` : '';
+    const cptColor = !cd ? 'var(--text)' : (cd.cls==='late'?'var(--error)':cd.cls==='soon'?'var(--warning)':'var(--success)');
+
+    html += `<div class="cpt-section ${hasCrit?'has-crit':hasWarn?'has-warn':''}">
+      <div class="cpt-header" onclick="document.getElementById('cpt-body-${ci}').classList.toggle('open');document.getElementById('cpt-chv-${ci}').classList.toggle('open')">
+        <div class="left">
+          <span class="chv" id="cpt-chv-${ci}">▶</span>
+          <span class="cpt-label" style="color:${cptColor}">${formatCPT(cpt)}</span>
+          ${cdHTML}
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val">${items.length}</div><div class="stat-lbl">Tote</div></div>
+          <div class="stat"><div class="stat-val" style="color:var(--error)">${critCount}</div><div class="stat-lbl">Crit</div></div>
+          <div class="stat"><div class="stat-val" style="color:var(--warning)">${warnCount}</div><div class="stat-lbl">Warn</div></div>
+          <div class="stat"><div class="stat-val" style="color:var(--info)">${maxDwell}</div><div class="stat-lbl">Max dk</div></div>
+        </div>
+      </div>
+      <div class="cpt-body" id="cpt-body-${ci}">
+        ${buildTable(items)}
+      </div>
+    </div>`;
+  });
+
+  body.innerHTML = html;
+}
+
+function buildTable(items) {
+  if (!items.length) return '';
+  let html = `<table class="tote-table"><thead><tr>
+    <th>Dwell</th><th>Tote ID</th><th>Items</th><th>PP</th><th>WP</th><th>Kat</th><th>Picker</th><th>Outer</th><th>Mesaj</th>
+  </tr></thead><tbody>`;
+
+  items.forEach(t => {
+    const dc = t.dwellMin >= critThr ? 'crit' : (t.dwellMin >= warnThr ? 'warn' : 'ok');
+    const rowCls = t.dwellMin >= critThr ? 'row-crit' : (t.dwellMin >= warnThr ? 'row-warn' : '');
+    const info = ppInfo(t.processPath);
+    const floorCls = t.floor ? 'floor-'+t.floor : '';
+    const wpLabel = WP_LABELS[t.groupWP||t.workPool] || (t.groupWP||t.workPool);
+
+    const pickerHTML = t.pickerLogin
+      ? `<span class="picker-text">👤 ${t.pickerLogin}</span>`
+      : (t.scannable && t.scannable.startsWith('tsX') ? '<span class="picker-na">—</span>' : '<span class="picker-na">bin</span>');
+
+    const msgHTML = t.pickerLogin
+      ? `<button class="msg-btn" onclick="openMsgModal('${esc(t.pickerLogin)}','${esc(t.scannable)}')">📨</button>`
+      : '<span class="picker-na">—</span>';
+
+    const scLink = t.scannable.startsWith('tsX')
+      ? `<a class="scannable-link" href="https://qi-fcresearch-eu.corp.amazon.com/IST2/results?s=${t.scannable}#container-history-nav" target="_blank">${t.scannable} 🔗</a>`
+      : `<span style="font-family:var(--mono);font-size:10px;color:var(--text2)">${t.scannable}</span>`;
+
+    const outerShort = (t.outer||'').replace('cvAtPM', 'PM').replace('dz-P-', '').substring(0, 18);
+
+    html += `<tr class="${rowCls}">
+      <td><span class="dwell-badge ${dc}">${t.dwellMin} dk</span></td>
+      <td>${scLink}</td>
+      <td style="text-align:center;font-family:var(--mono)">${t.items||t.quantity}</td>
+      <td><span class="pp-badge ${info.cls}">${info.label}</span></td>
+      <td style="font-size:10px;color:var(--text3)">${wpLabel}</td>
+      <td>${t.floor ? `<span class="floor-badge ${floorCls}">${t.floor}</span>` : '<span class="picker-na">…</span>'}</td>
+      <td>${pickerHTML}</td>
+      <td style="font-size:9px;color:var(--text3);font-family:var(--mono)" title="${t.outer||''}">${outerShort}</td>
+      <td>${msgHTML}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  return html;
+}
+
+function esc(s) { return (s||'').replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
+
+function countdownLabel(cpt) {
+  if (!cpt || cpt === 'Unknown') return null;
+  try {
+    const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+    const parts = cpt.trim().split(/\s+/);
+    if (parts.length < 3) return null;
+    const mo = months[parts[0]];
+    const da = parseInt(parts[1]);
+    const [h, m] = parts[2].split(':').map(Number);
+    if (mo === undefined || !da) return null;
+    const cd = new Date(new Date().getFullYear(), mo, da, h, m);
+    const ml = Math.round((cd - new Date()) / 60000);
+    if (ml < 0) return { cls:'late', text: Math.abs(ml) + 'dk GEÇTİ' };
+    if (ml < 120) return { cls:'soon', text: ml + 'dk kaldı' };
+    return { cls:'ok', text: Math.round(ml/60*10)/10 + 'sa kaldı' };
+  } catch(e) { return null; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MESSAGE MODAL
+// ═══════════════════════════════════════════════════════════════
+function openMsgModal(login, scannable) {
+  const old = document.getElementById('msgOverlay');
+  if (old) old.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'msgOverlay';
+
+  const tplHTML = MSG_TEMPLATES.map((tpl, i) => {
+    const filled = tpl.replace(/\{id\}/g, scannable);
+    return `<button class="tpl" data-idx="${i}" onclick="selectTpl(${i},'${esc(scannable)}')">${filled}</button>`;
+  }).join('');
+
+  overlay.innerHTML = `<div class="modal">
+    <h3>📨 Mesaj Gönder</h3>
+    <div class="to">Kime: <strong>${login}</strong></div>
+    <div class="templates">${tplHTML}</div>
+    <textarea id="msgText" placeholder="Mesajınızı yazın veya yukarıdan template seçin..."></textarea>
+    <div class="actions">
+      <button class="btn-cancel" onclick="closeMsgModal()">İptal</button>
+      <button class="btn-send" id="sendBtn" onclick="sendMsg('${esc(login)}','${esc(scannable)}')">Gönder</button>
+    </div>
+  </div>`;
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeMsgModal(); });
+  document.body.appendChild(overlay);
+}
+
+function selectTpl(idx, scannable) {
+  const filled = MSG_TEMPLATES[idx].replace(/\{id\}/g, scannable);
+  document.getElementById('msgText').value = filled;
+  document.querySelectorAll('.tpl').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.tpl[data-idx="${idx}"]`).classList.add('selected');
+}
+
+function closeMsgModal() {
+  const el = document.getElementById('msgOverlay');
+  if (el) el.remove();
+}
+
+function sendMsg(login, scannable) {
+  const text = document.getElementById('msgText').value.trim();
+  if (!text) { alert('Mesaj boş olamaz!'); return; }
+  // FANS API — Tampermonkey'den kullanılıyor, burada bilgilendirme
+  alert('📨 FANS mesajı göndermek için Tampermonkey scriptini kullanın.\n\nKime: ' + login + '\nMesaj: ' + text);
+  closeMsgModal();
+}
 </script>
 
 
